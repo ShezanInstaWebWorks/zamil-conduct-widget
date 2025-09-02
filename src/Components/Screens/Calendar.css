@@ -1,0 +1,151 @@
+.docs-appointment-calendar {
+  border-right: 1px solid #ccc;
+}
+
+.docs-appointment-calendar .mbsc-readonly-event {
+  opacity: 0.6;
+}
+
+/* .mbsc-schedule-time-indicator {
+  display: none !important;
+} */
+
+.docs-appointment-cont {
+  height: 100%;
+  overflow: auto;
+}
+
+.docs-appointment-task {
+  color: #fff;
+  background: #999;
+  padding: 10px;
+  margin: 20px;
+  border-radius: 8px;
+  font-family: -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+.demo-doctors-appointment.demo-wrapper,
+.demo-doctors-appointment .mbsc-grid,
+.demo-doctors-appointment .mbsc-row,
+.demo-doctors-appointment .docs-appointment-calendar {
+  height: 100%;
+}
+
+.docs-appointment-calendar h2,
+.docs-appointment-calendar .mbsc-calendar-title {
+  display: none !important;
+}
+.mbsc-schedule-nav,
+.mbsc-schedule-header {
+  outline: 2px solid red !important;
+}
+/* Hide the top toolbar if still visible */
+.mbsc-toolbar,
+.mbsc-ios .mbsc-toolbar,
+.mbsc-calendar-controls {
+  display: none !important;
+}
+/* Hide the day headers in the resource schedule view */
+/* Hide the day label row like "Sun 4", "Mon 5" in resource schedule view */
+/* .mbsc-schedule-header .mbsc-schedule-header-day {
+  display: none !important;
+} */
+/* Hide the day names (e.g., Sun, Mon) inside the header */
+/* .mbsc-schedule-header-day .mbsc-schedule-day-text {
+  display: none !important;
+} */
+/* Hide the entire day header column (e.g., "Sun 4") */
+/* .mbsc-schedule-header-day {
+  display: none !important;
+} */
+
+/* Hide the day name text (e.g., "Sun", "Mon") */
+/* .mbsc-schedule-day-text {
+  display: none !important;
+} */
+
+/* Hide the day number (e.g., "4", "5") */
+.mbsc-schedule-day-date {
+  display: none !important;
+}
+
+.mbsc-schedule-header-item {
+  display: none;
+}
+
+/* .mbsc-schedule-header .mbsc-schedule-resource-group:nth-child(1) {
+  display: none;
+} */
+/* ✅ Hide the day header row with "Sun 4", "Mon 5", etc. */
+.mbsc-schedule-header-day {
+  display: none !important;
+}
+
+.md-custom-event-cont {
+  font-size: 12px;
+  font-weight: 600;
+  height: 100%;
+  background: #fff;
+  position: relative;
+  box-sizing: border-box;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  border-radius: 0 10px 10px 0;
+  overflow: hidden;
+}
+
+.md-custom-event-wrapper {
+  position: relative;
+  background: rgba(255, 255, 255, 0.5);
+  height: 100%;
+  min-height: 135px;
+  box-sizing: border-box;
+  border-radius: 0 10px 10px 0;
+  transition: background 0.15s ease-in-out;
+}
+
+.mbsc-schedule-event-hover .md-custom-event-cont .md-custom-event-wrapper {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.mbsc-schedule-event-active .md-custom-event-cont .md-custom-event-wrapper {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.14), 0 1px 8px 0 rgba(0, 0, 0, 0.12),
+    0 1px 3px -1px rgba(0, 0, 0, 0.2);
+}
+
+.mbsc-schedule-event-hover .md-custom-event-allday-title {
+  opacity: 0.8;
+}
+
+.mbsc-schedule-event-active .md-custom-event-allday-title {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.14), 0 1px 8px 0 rgba(0, 0, 0, 0.12),
+    0 1px 3px -1px rgba(0, 0, 0, 0.2);
+}
+
+.mbsc-schedule-date-header-text{
+  display: none;
+}
+
+.md-custom-event-category {
+  display: inline-block;
+  max-width: 100%;
+  color: #eee;
+  border-radius: 10px;
+  margin: 10px;
+  padding: 2px 10px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.md-custom-event-details {
+  padding: 0 10px;
+}
+
+.md-custom-event-title {
+  color: initial;
+}
+
+.md-custom-event-time {
+  font-size: 10px;
+  color: #666;
+  padding-top: 3px;
+}
