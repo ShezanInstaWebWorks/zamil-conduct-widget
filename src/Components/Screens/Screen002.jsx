@@ -77,7 +77,15 @@ const Screen002 = ({ route_1106_data, setNotes, notes, setScreen }) => {
 
         {/* Right Section with Cancellation Reason and Confirmation */}
         <Grid2 size={{ xs: 12, md: 8 }}>
-          <Paper elevation={3} sx={{ pr: 10, pl: 10, pt: 4, pb: 5 }}>
+          <Paper
+            elevation={3}
+            sx={{
+              pr: { xs: 4, sm: 10 },
+              pl: { xs: 4, sm: 10 },
+              pt: { xs: 4, sm: 4 },
+              pb: { xs: 4, sm: 5 },
+            }}
+          >
             {/* Header */}
             <Box
               sx={{
