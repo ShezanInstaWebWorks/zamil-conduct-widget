@@ -14,10 +14,6 @@ import Typography from "@mui/material/Typography";
 import Information1 from "../Information/Information1";
 
 const Screen001 = ({ route_1106_data, setScreen }) => {
-  const handleBack = () => {
-    setScreen("Screen001");
-  };
-
   return (
     <Box
       sx={{
@@ -42,18 +38,22 @@ const Screen001 = ({ route_1106_data, setScreen }) => {
             sx={{
               p: { xs: 1.5, sm: 2 },
               mb: { xs: 1, sm: 1.5 },
-              display: "flex",
-              flexDirection: { xs: "column", sm: "row" },
-              justifyContent: "space-between",
-              alignItems: { xs: "stretch", sm: "center" },
-              gap: { xs: 1, sm: 2 },
+              // not flex on mobile, flex on desktop
+              display: { xs: "block", sm: "flex" },
+              // flex-only props apply from sm+
+              flexDirection: { sm: "row" },
+              justifyContent: { sm: "space-between" },
+              alignItems: { sm: "center" },
+              gap: { sm: 2 },
             }}
           >
             <Typography
               sx={{
                 fontWeight: "bold",
-                flex: "1 1 auto",
                 wordBreak: "break-word",
+                // give spacing when stacked on mobile
+                mb: { xs: 1, sm: 0 },
+                flex: { sm: "1 1 auto" },
               }}
             >
               You Are Completing Task:{" "}
@@ -66,9 +66,12 @@ const Screen001 = ({ route_1106_data, setScreen }) => {
               sx={{
                 textTransform: "none",
                 width: { xs: "100%", sm: "auto" },
-                alignSelf: { xs: "stretch", sm: "center" },
+                alignSelf: { sm: "center" },
               }}
-              onClick={() => window.open(route_1106_data?.deal_link, "_blank")}
+              onClick={() =>
+                route_1106_data?.deal_link &&
+                window.open(route_1106_data.deal_link, "_blank")
+              }
             >
               Open Deal Info In New Tab
             </Button>
@@ -87,8 +90,8 @@ const Screen001 = ({ route_1106_data, setScreen }) => {
         <Grid2 size={{ xs: 12, md: 8 }}>
           <Paper
             sx={{
-              px: { xs: 2, sm: 3, md: 10 },
-              py: { xs: 2.5, md: 4 },
+              px: { xs: 4, sm: 3, md: 10 },
+              py: { xs: 4, sm: 2.5, md: 4 },
             }}
           >
             <Typography
