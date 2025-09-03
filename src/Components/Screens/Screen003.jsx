@@ -218,8 +218,11 @@ const Screen003 = ({
                   sx={{
                     display: "flex",
                     flexDirection: "column",
-                    alignItems: "flex-start",
-                    width: "100%", // ensure child width percentages work
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "100%",
+                    textAlign: "center",
+                    mx: "auto",
                   }}
                 >
                   <Typography sx={{ textAlign: "left" }}>
