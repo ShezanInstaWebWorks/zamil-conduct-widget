@@ -21,59 +21,76 @@ const Screen001 = ({ route_1106_data, setScreen }) => {
   return (
     <Box
       sx={{
-        height: "100vh",
-        width: "100vw",
-        backgroundColor: "#CED4DA",
+        minHeight: "100vh",
+        width: "100%",
+        bgcolor: "#CED4DA",
         display: "flex",
         justifyContent: "center",
         overflowY: "auto",
-        top: "5%",
-        p: 4,
         boxSizing: "border-box",
+        p: { xs: 1.5, sm: 3, md: 4 },
       }}
     >
       <Grid2
         container
-        spacing={1}
-        sx={{ maxWidth: "1200px", width: "100%", mt: 2 }}
+        spacing={{ xs: 1, md: 2 }}
+        sx={{ maxWidth: "1200px", width: "100%", mt: { xs: 1, md: 2 } }}
       >
-        {/* Top bar with Back button and confirmation text */}
+        {/* Top bar with confirmation text and action */}
         <Grid2 size={{ xs: 12 }}>
           <Paper
             sx={{
-              p: 2,
-              mb: 1,
+              p: { xs: 1.5, sm: 2 },
+              mb: { xs: 1, sm: 1.5 },
               display: "flex",
+              flexDirection: { xs: "column", sm: "row" },
               justifyContent: "space-between",
-              alignItems: "center",
+              alignItems: { xs: "stretch", sm: "center" },
+              gap: { xs: 1, sm: 2 },
             }}
           >
-            <Typography sx={{ width: "80%", fontWeight: "bold" }}>
+            <Typography
+              sx={{
+                fontWeight: "bold",
+                flex: "1 1 auto",
+                wordBreak: "break-word",
+              }}
+            >
               You Are Completing Task:{" "}
-              {route_1106_data?.previous_task_details?.Subject}
+              {route_1106_data?.previous_task_details?.Subject || "—"}
             </Typography>
 
             <Button
               variant="contained"
               color="primary"
-              sx={{ width: "20%", textTransform: "none" }}
+              sx={{
+                textTransform: "none",
+                width: { xs: "100%", sm: "auto" },
+                alignSelf: { xs: "stretch", sm: "center" },
+              }}
               onClick={() => window.open(route_1106_data?.deal_link, "_blank")}
             >
               Open Deal Info In New Tab
             </Button>
-
-            <Box />
           </Paper>
         </Grid2>
 
         {/* Left Section with Information1 */}
-        <Grid2 size={{ xs: 12, md: 4 }} sx={{ height: "85%" }}>
+        <Grid2
+          size={{ xs: 12, md: 4 }}
+          sx={{ height: { md: "85%", xs: "auto" } }}
+        >
           <Information1 route_1106_data={route_1106_data} />
         </Grid2>
 
-        {/* Right Section with Cancellation Reason and Confirmation */}
+        {/* Right Section with Contacts and Actions */}
         <Grid2 size={{ xs: 12, md: 8 }}>
-          <Paper sx={{ pr: 10, pl: 10, pt: 4, pb: 5 }}>
+          <Paper
+            sx={{
+              px: { xs: 2, sm: 3, md: 10 },
+              py: { xs: 2.5, md: 4 },
+            }}
+          >
             <Typography
               variant="h6"
               gutterBottom
@@ -85,7 +102,7 @@ const Screen001 = ({ route_1106_data, setScreen }) => {
             <Typography
               variant="h6"
               sx={{
-                p: 2,
+                p: { xs: 1, md: 2 },
                 textAlign: "center",
                 fontWeight: "bold",
               }}
@@ -96,25 +113,26 @@ const Screen001 = ({ route_1106_data, setScreen }) => {
             <TableContainer
               component={Paper}
               sx={{
-                maxWidth: 550,
+                width: "100%",
+                maxWidth: { xs: "100%", sm: 550 },
                 mx: "auto",
-                border: "1px solid", // outer border
-                borderRadius: 0, // sharp edges
-                maxHeight: 170, // ✅ fixed height
-                overflowY: "auto", // ✅ enable vertical scroll if more rows
+                border: "1px solid",
+                borderRadius: 0, // keep sharp edges
+                maxHeight: { xs: 200, sm: 240 },
+                overflowY: "auto",
+                overflowX: "auto",
               }}
             >
-              {/* Title before table */}
-
               <Table
                 size="small"
-                aria-label="simple table"
-                stickyHeader // ✅ keeps header visible when scrolling
+                aria-label="contacts table"
+                stickyHeader
                 sx={{
                   border: "1px solid",
-                  borderCollapse: "collapse", // grid lines
+                  borderCollapse: "collapse",
                   "& th, & td": {
                     border: "1px solid",
+                    whiteSpace: "nowrap",
                   },
                 }}
               >
@@ -130,12 +148,14 @@ const Screen001 = ({ route_1106_data, setScreen }) => {
                 </TableHead>
 
                 <TableBody>
-                  {route_1106_data?.contacts?.map((contact, index) => (
+                  {(route_1106_data?.contacts || []).map((contact, index) => (
                     <TableRow key={index}>
                       <TableCell>
-                        {contact.First_Name} {contact.Last_Name}
+                        {(contact?.First_Name || "") +
+                          " " +
+                          (contact?.Last_Name || "")}
                       </TableCell>
-                      <TableCell>{contact.Mobile}</TableCell>
+                      <TableCell>{contact?.Mobile || "—"}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -144,25 +164,28 @@ const Screen001 = ({ route_1106_data, setScreen }) => {
 
             <Box
               sx={{
-                display: "flex",
-                justifyContent: "space-between",
                 width: "100%",
-                mt: 11.5,
+                mt: { xs: 3, md: 9 },
+                display: "flex",
+                flexDirection: { xs: "column", sm: "row" },
+                gap: { xs: 1.5, sm: 2 },
+                justifyContent: { xs: "stretch", sm: "space-between" },
               }}
             >
               <Button
                 variant="contained"
-                onClick={() => setScreen("Screen007")}
                 color="error"
+                onClick={() => setScreen("Screen007")}
+                sx={{ width: { xs: "100%", sm: "auto" } }}
               >
                 Customer Did Not Answered
               </Button>
 
               <Button
-                sx={{ width: 255 }}
                 variant="contained"
-                onClick={() => setScreen("Screen002")}
                 color="success"
+                onClick={() => setScreen("Screen002")}
+                sx={{ width: { xs: "100%", sm: 255 } }}
               >
                 Customer Answered
               </Button>
