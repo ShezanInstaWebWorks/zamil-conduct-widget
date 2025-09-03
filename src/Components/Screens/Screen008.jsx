@@ -140,12 +140,12 @@ const Screen008 = ({
                 disabled
               />
             </Box>
-            <Box sx={{ display: "flex", justifyContent: "center", mb: 6 }}>
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
               <Typography>Would you like to send a follow up email?</Typography>
             </Box>
 
             <Box
-              sx={{ display: "flex", justifyContent: "space-between", mt: 10 }}
+              sx={{ display: "flex", justifyContent: "space-between", mt: 5 }}
             >
               <Button
                 variant="contained"
