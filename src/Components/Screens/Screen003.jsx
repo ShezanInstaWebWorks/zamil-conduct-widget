@@ -110,7 +110,16 @@ const Screen003 = ({
 
         {/* Right Section */}
         <Grid2 size={{ xs: 12, md: 8 }}>
-          <Paper elevation={3} sx={{ pr: 10, pl: 10, pt: 4, pb: 5 }}>
+          <Paper
+            elevation={3}
+            sx={{
+              p: 4, // xs: all sides = 4
+              pr: { md: 10 }, // md+: restore your desktop paddings
+              pl: { md: 10 },
+              pt: { md: 4 },
+              pb: { md: 5 },
+            }}
+          >
             <Box
               sx={{
                 backgroundColor: "#a5d6a7",
@@ -149,7 +158,7 @@ const Screen003 = ({
                   mb: 2,
                   width: 250,
                   "& .MuiInputBase-input": {
-                    textAlign: "center", // ✅ only center the value, not label
+                    textAlign: "center", // only center the value, not label
                   },
                 }}
                 select
@@ -176,6 +185,7 @@ const Screen003 = ({
                 <MenuItem value="+ 4 business day">+ 4 business day</MenuItem>
                 <MenuItem value="custom date">custom date</MenuItem>
               </TextField>
+
               {followUpDueDate && (
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
@@ -202,12 +212,14 @@ const Screen003 = ({
                   />
                 </LocalizationProvider>
               )}
+
               {followUpDueDate === "custom date" && (
                 <Box
                   sx={{
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "flex-start",
+                    width: "100%", // ensure child width percentages work
                   }}
                 >
                   <Typography sx={{ textAlign: "left" }}>
@@ -222,7 +234,7 @@ const Screen003 = ({
                     fullWidth
                     variant="outlined"
                     sx={{
-                      width: 460,
+                      width: { xs: "100%", sm: 460 }, // prevent overflow on mobile
                       "& .MuiOutlinedInput-root": {
                         "& fieldset": { borderWidth: 2 },
                         "&:hover fieldset": { borderWidth: 2 },
@@ -248,20 +260,26 @@ const Screen003 = ({
                 </Box>
               )}
             </Box>
+
             <Box sx={{ textAlign: "center" }}>
               <Button
                 variant="contained"
                 size="small"
                 color="success"
                 onClick={handleNext}
-                sx={{ px: 5, width: 400 }}
+                sx={{
+                  width: { xs: "100%", sm: 400 }, // full width on mobile, fixed on desktop
+                  maxWidth: "100%",
+                  px: { xs: 2, sm: 5 },
+                  mx: "auto",
+                }}
                 disabled={
                   !dueDate ||
                   !followUpDueDate ||
                   (followUpDueDate === "custom date" && !extensionNote)
                 }
               >
-                Confirm Follow Up Date & Close Task
+                Confirm Follow Up Date &amp; Close Task
               </Button>
             </Box>
           </Paper>
