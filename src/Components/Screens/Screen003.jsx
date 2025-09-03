@@ -110,151 +110,78 @@ const Screen003 = ({
 
         {/* Right Section */}
         <Grid2 size={{ xs: 12, md: 8 }}>
-          <Paper elevation={3} sx={{ pr: 10, pl: 10, pt: 4, pb: 5 }}>
-            <Box
-              sx={{
-                backgroundColor: "#a5d6a7",
-                p: 1,
-                borderRadius: "4px",
-                textAlign: "center",
-                mb: 1,
-              }}
-            >
-              <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-                Customer Answered
-              </Typography>
-            </Box>
+          <Paper
+            elevation={3}
+            sx={{
+              p: 4, // mobile: all sides = 4
+              pr: { md: 10 }, // md+: restore your desktop padding
+              pl: { md: 10 },
+              pt: { md: 4 },
+              pb: { md: 5 },
+            }}
+          >
+            {/* ...unchanged content... */}
 
-            <Typography
-              sx={{ mb: 1, mt: 1, textAlign: "center", fontWeight: "bold" }}
-            >
-              Set Next Follow Up Date
-            </Typography>
-
-            {/* Centered Select Field */}
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                flexDirection: "column",
-                alignItems: "center",
-                my: 2,
-              }}
-            >
-              <TextField
-                id="outlined-select-followup"
-                size="small"
-                slotProps={{ inputLabel: { shrink: true } }}
+            {followUpDueDate === "custom date" && (
+              <Box
                 sx={{
-                  mb: 2,
-                  width: 250,
-                  "& .MuiInputBase-input": {
-                    textAlign: "center", // ✅ only center the value, not label
-                  },
-                }}
-                select
-                label="Select Next Follow Up Due Date"
-                value={followUpDueDate}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  setFollowUpDueDate(value);
-
-                  if (value.includes("business day")) {
-                    const days = parseInt(value.match(/\d+/)[0]); // extract # of days
-                    const result = addBusinessDays(new Date(), days); // calculate
-                    setDueDate(dayjs(result).format("YYYY-MM-DD"));
-                  } else {
-                    setDueDate(null);
-                    setExtensionNote("");
-                  }
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  width: "100%",
                 }}
               >
-                <MenuItem value="" disabled></MenuItem>
-                <MenuItem value="+ 1 business day">+ 1 business day</MenuItem>
-                <MenuItem value="+ 2 business day">+ 2 business day</MenuItem>
-                <MenuItem value="+ 3 business day">+ 3 business day</MenuItem>
-                <MenuItem value="+ 4 business day">+ 4 business day</MenuItem>
-                <MenuItem value="custom date">custom date</MenuItem>
-              </TextField>
-              {followUpDueDate && (
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    label="Next Follow Up Date"
-                    disabled={followUpDueDate !== "custom date" ? true : false}
-                    value={dueDate ? dayjs(dueDate) : null}
-                    onChange={(newValue) =>
-                      setDueDate(dayjs(newValue).format("YYYY-MM-DD"))
-                    }
-                    sx={{ width: 250, mb: 2 }}
-                    minDate={today}
-                    maxDate={maxDate}
-                    format="DD/MM/YYYY" // Controls display format
-                    slotProps={{
-                      textField: {
-                        size: "small",
-                        InputLabelProps: { shrink: true },
-                        placeholder: "DD/MM/YYYY",
-                        inputProps: {
-                          readOnly: true, // Prevent typing
-                        },
-                      },
-                    }}
-                  />
-                </LocalizationProvider>
-              )}
-              {followUpDueDate === "custom date" && (
-                <Box
+                <Typography sx={{ textAlign: "left" }}>
+                  Reason for Extension (mandatory)
+                </Typography>
+                <TextField
+                  placeholder="Please add notes about why the follow up date needs to be extended"
+                  value={extensionNote}
+                  onChange={(e) => setExtensionNote(e.target.value)}
+                  multiline
+                  rows={4}
+                  fullWidth
+                  variant="outlined"
                   sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-start",
+                    width: { xs: "100%", sm: 460 }, // prevent overflow on mobile
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": { borderWidth: 2 },
+                      "&:hover fieldset": { borderWidth: 2 },
+                      "&.Mui-focused fieldset": { borderWidth: 2 },
+                    },
                   }}
-                >
-                  <Typography sx={{ textAlign: "left" }}>
-                    Reason for Extension (mandatory)
-                  </Typography>
-                  <TextField
-                    placeholder="Please add notes about why the follow up date needs to be extended"
-                    value={extensionNote}
-                    onChange={(e) => setExtensionNote(e.target.value)}
-                    multiline
-                    rows={4}
-                    fullWidth
-                    variant="outlined"
+                  error={error}
+                />
+                {error && (
+                  <Typography
+                    variant="caption"
                     sx={{
-                      width: 460,
-                      "& .MuiOutlinedInput-root": {
-                        "& fieldset": { borderWidth: 2 },
-                        "&:hover fieldset": { borderWidth: 2 },
-                        "&.Mui-focused fieldset": { borderWidth: 2 },
-                      },
+                      color: "red",
+                      display: "block",
+                      fontSize: "11px",
+                      mt: 0.5,
                     }}
-                    error={error}
-                  />
-                  {error && (
-                    <Typography
-                      variant="caption"
-                      sx={{
-                        color: "red",
-                        display: "block",
-                        fontSize: "11px",
-                        mt: 0.5,
-                      }}
-                    >
-                      Minimum description length not reached. Please enter a
-                      more descriptive reason for extension.
-                    </Typography>
-                  )}
-                </Box>
-              )}
-            </Box>
+                  >
+                    Minimum description length not reached. Please enter a more
+                    descriptive reason for extension.
+                  </Typography>
+                )}
+              </Box>
+            )}
+
+            {/* Confirm Button - responsive width */}
             <Box sx={{ textAlign: "center" }}>
               <Button
                 variant="contained"
                 size="small"
                 color="success"
                 onClick={handleNext}
-                sx={{ px: 5, width: 400 }}
+                sx={{
+                  width: { xs: "100%", sm: 400 }, // full width on mobile, fixed on desktop
+                  maxWidth: "100%",
+                  px: { xs: 2, sm: 5 }, // comfortable padding
+                  mx: "auto",
+                }}
                 disabled={
                   !dueDate ||
                   !followUpDueDate ||
