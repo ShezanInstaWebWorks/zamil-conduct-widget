@@ -104,7 +104,15 @@ const Screen008 = ({
 
         {/* Right Section */}
         <Grid2 size={{ xs: 12, md: 8 }}>
-          <Paper elevation={3} sx={{ pr: 10, pl: 10, pt: 4, pb: 5 }}>
+          <Paper
+            elevation={3}
+            sx={{
+              pr: { xs: 2, sm: 3, md: 10 },
+              pl: { xs: 2, sm: 3, md: 10 },
+              pt: { xs: 2, sm: 3, md: 4 },
+              pb: { xs: 3, sm: 4, md: 5 },
+            }}
+          >
             <Box
               sx={{
                 backgroundColor: "red",
