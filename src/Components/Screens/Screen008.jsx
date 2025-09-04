@@ -132,7 +132,7 @@ const Screen008 = ({
 
             {/* Second TextField: Show the calculated result (Read-only) */}
             <Box
-              sx={{ display: "flex", justifyContent: "center", mb: 10, mt: 10 }}
+              sx={{ display: "flex", justifyContent: "center", mb: 5, mt: 10 }}
             >
               <TextField
                 id="outlined-followup-date"
@@ -167,11 +167,9 @@ const Screen008 = ({
                 color="error"
                 onClick={() => handle_Route_1103()}
                 sx={{
-                  px: { xs: 2, sm: 5 }, // smaller horizontal padding on mobile
-                  py: { xs: 0.75, sm: 1 }, // slightly slimmer height on mobile
-                  width: { xs: "48%", sm: 300 }, // two compact buttons side-by-side on mobile
-                  minWidth: "unset", // let width control the size
-                  fontSize: { xs: "0.8rem", sm: "0.875rem" },
+                  width: { xs: "68%", sm: 300 }, // two compact buttons side-by-side on mobile
+                  minWidth: "unset",
+                  textTransform: "none",
                 }}
               >
                 No thanks, Just Confirm Next Follow Up Date
@@ -183,11 +181,9 @@ const Screen008 = ({
                 color="success"
                 onClick={() => setScreen("Screen009")}
                 sx={{
-                  px: { xs: 2, sm: 5 },
-                  py: { xs: 0.75, sm: 1 },
-                  width: { xs: "48%", sm: 300 },
+                  width: { xs: "68%", sm: 300 },
                   minWidth: "unset",
-                  fontSize: { xs: "0.8rem", sm: "0.875rem" },
+                  textTransform: "none",
                 }}
                 // disabled={!followUpDueDate}
               >

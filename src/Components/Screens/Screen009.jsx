@@ -31,14 +31,10 @@ const Screen009 = ({
 }) => {
   const handleToChange = (contact) => {
     setSelectedTo((prev) => {
-      if (prev?.email === contact.Email) {
-        // ✅ unselect if same one clicked again
-        return null;
-      }
-
-      // ✅ remove from CC if exists
-      setSelectedCC((ccPrev) => ccPrev.filter((e) => e !== contact.Email));
-
+      if (prev?.email === contact.Email) return null;
+      setSelectedCC((ccPrev) =>
+        ccPrev.filter((e) => e !== (contact.Email || ""))
+      );
       return {
         name: `${contact.First_Name || ""} ${contact.Last_Name || ""}`.trim(),
         email: contact.Email || "",
@@ -50,8 +46,7 @@ const Screen009 = ({
   const handleCCChange = (contact) => {
     const email = contact.Email || "";
     setSelectedCC((prev) => {
-      if (selectedTo?.email === email) return prev; // ❌ prevent adding if same as To
-
+      if (selectedTo?.email === email) return prev;
       return prev.includes(email)
         ? prev.filter((e) => e !== email)
         : [...prev, email];
@@ -68,7 +63,7 @@ const Screen009 = ({
         justifyContent: "center",
         overflowY: "auto",
         top: "5%",
-        p: 4,
+        p: { xs: 2, sm: 4 }, // mobile: tighter padding
         boxSizing: "border-box",
       }}
     >
@@ -77,15 +72,17 @@ const Screen009 = ({
         spacing={1}
         sx={{ maxWidth: "1200px", width: "100%", mt: 2 }}
       >
-        {/* Top bar with Back button and confirmation text */}
+        {/* Top bar with Back button and banner and Open Deal */}
         <Grid2 size={{ xs: 12 }}>
           <Paper
             sx={{
-              p: 2,
+              p: { xs: 1.5, md: 2 }, // mobile: smaller padding
               mb: 1,
               display: "flex",
+              flexDirection: { xs: "column", md: "row" }, // mobile: stack
               justifyContent: "space-between",
-              alignItems: "center",
+              alignItems: { xs: "stretch", md: "center" },
+              gap: { xs: 1, md: 0 },
             }}
           >
             {/* Left Button */}
@@ -93,7 +90,10 @@ const Screen009 = ({
               onClick={() => setScreen("Screen008")}
               variant="contained"
               startIcon={<ArrowBackIcon />}
-              sx={{ textTransform: "none" }}
+              sx={{
+                textTransform: "none",
+                width: { xs: "100%", md: "auto" }, // mobile: full width
+              }}
             >
               Back
             </Button>
@@ -105,8 +105,9 @@ const Screen009 = ({
                 p: 0.3,
                 borderRadius: "4px",
                 textAlign: "center",
-                flexGrow: 1, // makes it take remaining space
-                mx: 18, // margin between buttons
+                flexGrow: 1,
+                mx: { xs: 0, md: 18 }, // mobile: no side margin
+                my: { xs: 0.5, md: 0 }, // mobile: small vertical spacing
               }}
             >
               <Typography
@@ -122,7 +123,10 @@ const Screen009 = ({
               variant="contained"
               color="primary"
               onClick={() => window.open(route_1106_data?.deal_link, "_blank")}
-              sx={{ textTransform: "none" }}
+              sx={{
+                textTransform: "none",
+                width: { xs: "100%", md: "auto" }, // mobile: full width
+              }}
             >
               Open Deal Info In New Tab
             </Button>
@@ -130,22 +134,38 @@ const Screen009 = ({
         </Grid2>
 
         {/* Left Section */}
-
         <Grid2 size={{ xs: 12, md: 8 }}>
           <Paper
             elevation={3}
-            sx={{ pr: 5, pl: 5, pt: 2, pb: 2, minHeight: "550px" }}
+            sx={{
+              pr: { xs: 2, md: 5 },
+              pl: { xs: 2, md: 5 },
+              pt: { xs: 1.5, md: 2 },
+              pb: { xs: 1.5, md: 2 },
+              minHeight: { xs: "auto", md: "550px" }, // mobile: no forced height
+            }}
           >
-            <Box sx={{ display: "flex", justifyContent: "center", mb: 6 }}>
-              <Typography sx={{ fontSize: "18px" }}>
-                Would you like to send a follow up email?
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                mb: { xs: 3, md: 6 },
+              }}
+            >
+              <Typography
+                sx={{
+                  fontSize: { xs: "16px", md: "18px" },
+                  textAlign: "center",
+                }}
+              >
+                Please Select The Contacts To Send The Follow Up Email To
               </Typography>
             </Box>
 
             <TableContainer
               component={Paper}
               sx={{
-                maxWidth: 650,
+                maxWidth: { xs: "100%", sm: 650 }, // mobile: use full width
                 mx: "auto",
                 border: "1px solid",
                 borderRadius: 0,
@@ -162,6 +182,7 @@ const Screen009 = ({
                   borderCollapse: "collapse",
                   "& th, & td": {
                     border: "1px solid",
+                    p: { xs: 0.5, sm: 1 }, // mobile: tighter cell padding
                   },
                 }}
               >
@@ -181,7 +202,6 @@ const Screen009 = ({
                 <TableBody>
                   {route_1106_data?.contacts?.map((contact, index) => {
                     const email = contact.Email ? String(contact.Email) : null;
-
                     return (
                       <TableRow key={index}>
                         {/* To */}
@@ -224,28 +244,26 @@ const Screen009 = ({
         <Grid2 size={{ xs: 12, md: 4 }}>
           <Paper
             sx={{
-              p: 4,
+              p: { xs: 2, md: 4 }, // mobile: smaller padding
               mb: 1,
-              minHeight: "520px",
+              minHeight: { xs: "auto", md: "520px" }, // mobile: no forced height
               display: "flex",
               flexDirection: "column",
-              justifyContent: "space-between", // pushes button to bottom
+              justifyContent: "space-between",
               alignItems: "center",
             }}
           >
             {/* Top Content (TextField) */}
-            <Box sx={{ mt: 2, mb: 2 }}>
+            <Box sx={{ mt: 2, mb: 2, width: "100%" }}>
               <TextField
                 id="outlined-followup-date"
                 size="small"
                 sx={{
-                  width: "300px",
-                  "& .MuiInputBase-input": {
-                    textAlign: "center",
-                  },
+                  width: { xs: "100%", sm: 300 }, // mobile: full width
+                  "& .MuiInputBase-input": { textAlign: "center" },
                 }}
                 label="Next Follow Up Date"
-                value={calculatedDate || ""} // ✅ ensures empty string instead of undefined
+                value={calculatedDate || ""}
                 disabled
               />
             </Box>
@@ -256,7 +274,12 @@ const Screen009 = ({
               size="small"
               color="success"
               onClick={() => handle_Route_1104()}
-              sx={{ px: 5, width: "300px", mt: "auto" }}
+              sx={{
+                px: { xs: 2, md: 5 },
+                width: { xs: "100%", sm: 300 }, // mobile: full width
+                mt: "auto",
+                textTransform: "none",
+              }}
               disabled={!selectedTo}
             >
               Generate Email Template
