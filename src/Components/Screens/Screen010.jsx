@@ -117,11 +117,13 @@ const Screen010 = ({
         <Grid2 size={{ xs: 12 }}>
           <Paper
             sx={{
-              p: 2,
+              p: { xs: 1.5, md: 2 }, // smaller padding on mobile
               mb: 1,
               display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
+              flexDirection: { xs: "column", md: "row" }, // stack on mobile
+              justifyContent: { xs: "center", md: "space-between" },
+              alignItems: { xs: "stretch", md: "center" },
+              gap: { xs: 1, md: 0 },
             }}
           >
             {/* Left Button */}
@@ -129,7 +131,11 @@ const Screen010 = ({
               onClick={() => setScreen("Screen009")}
               variant="contained"
               startIcon={<ArrowBackIcon />}
-              sx={{ textTransform: "none" }}
+              sx={{
+                textTransform: "none",
+                width: { xs: "100%", md: "auto" }, // full width on mobile
+                minWidth: { xs: 0, md: undefined },
+              }}
             >
               Back
             </Button>
@@ -141,13 +147,18 @@ const Screen010 = ({
                 p: 0.3,
                 borderRadius: "4px",
                 textAlign: "center",
-                flexGrow: 1, // makes it take remaining space
-                mx: 18, // margin between buttons
+                flexGrow: { xs: 0, md: 1 }, // only grow on desktop
+                mx: { xs: 0, md: 18 }, // remove big margin on mobile
+                my: { xs: 0.5, md: 0 },
               }}
             >
               <Typography
                 variant="h6"
-                sx={{ fontWeight: "bold", color: "white" }}
+                sx={{
+                  fontWeight: "bold",
+                  color: "white",
+                  fontSize: { xs: "1rem", md: "1.25rem" }, // slightly smaller on mobile
+                }}
               >
                 Customer did not answer
               </Typography>
@@ -158,7 +169,11 @@ const Screen010 = ({
               variant="contained"
               color="primary"
               onClick={() => window.open(route_1106_data?.deal_link, "_blank")}
-              sx={{ textTransform: "none" }}
+              sx={{
+                textTransform: "none",
+                width: { xs: "100%", md: "auto" }, // full width on mobile
+                minWidth: { xs: 0, md: undefined },
+              }}
             >
               Open Deal Info In New Tab
             </Button>
