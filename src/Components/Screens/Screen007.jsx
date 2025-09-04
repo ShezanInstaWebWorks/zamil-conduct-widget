@@ -107,9 +107,10 @@ const Screen007 = ({
           <Paper
             elevation={3}
             sx={{
-              // ↓ reduce padding on small screens, keep roomy on md+
-              px: { xs: 2, sm: 4, md: 10 }, // replaces pr/pl: 10
-              py: { xs: 2, sm: 3, md: 5 }, // replaces pt: 4, pb: 5
+              pr: { xs: 2, sm: 3, md: 10 },
+              pl: { xs: 2, sm: 3, md: 10 },
+              pt: { xs: 2, sm: 3, md: 4 },
+              pb: { xs: 3, sm: 4, md: 5 },
             }}
           >
             <Box
@@ -131,11 +132,7 @@ const Screen007 = ({
 
             <Typography
               variant="h5"
-              sx={{
-                my: { xs: 2, sm: 3 },
-                textAlign: "center",
-                fontWeight: "bold",
-              }}
+              sx={{ my: 3, textAlign: "center", fontWeight: "bold" }}
             >
               Set Next Follow Up Date
             </Typography>
@@ -147,13 +144,14 @@ const Screen007 = ({
                 size="small"
                 slotProps={{ inputLabel: { shrink: true } }}
                 sx={{
-                  // ↓ full width on phones, fixed on sm+
-                  width: { xs: "100%", sm: 300 },
-                  "& .MuiInputBase-input": { textAlign: "center" },
+                  width: "300px",
+                  "& .MuiInputBase-input": {
+                    textAlign: "center",
+                  },
                 }}
                 select
                 label="Select Next Follow Up Due Date"
-                value={followUpDueDate ?? ""}
+                value={followUpDueDate ?? ""} // ✅ ensure controlled input
                 onChange={(e) => {
                   const value = e.target.value;
                   setFollowUpDueDate(value);
@@ -164,8 +162,38 @@ const Screen007 = ({
                   }
                 }}
               >
-                {/* your MenuItems unchanged */}
-                {/* ... */}
+                {/* <= 3 follow ups */}
+                {route_1106_data?.previous_task_details?.Follow_Up_Number <=
+                  3 && (
+                  <MenuItem value="+ 1 business day">+ 1 business day</MenuItem>
+                )}
+
+                {/* 4–6 follow ups */}
+                {route_1106_data?.previous_task_details?.Follow_Up_Number >=
+                  4 &&
+                  route_1106_data?.previous_task_details?.Follow_Up_Number <=
+                    6 && (
+                    <>
+                      <MenuItem value="+ 1 business day">
+                        + 1 business day
+                      </MenuItem>
+                      <MenuItem value="+ 2 business day">
+                        + 2 business day
+                      </MenuItem>
+                      <MenuItem value="+ 3 business day">
+                        + 3 business day
+                      </MenuItem>
+                    </>
+                  )}
+
+                {/* 7 follow ups */}
+                {route_1106_data?.previous_task_details?.Follow_Up_Number >=
+                  7 &&
+                  [...Array(7)].map((_, i) => (
+                    <MenuItem key={i + 1} value={`+ ${i + 1} business day`}>
+                      + {i + 1} business day
+                    </MenuItem>
+                  ))}
               </TextField>
             </Box>
 
@@ -175,24 +203,25 @@ const Screen007 = ({
                 id="outlined-followup-date"
                 size="small"
                 sx={{
-                  width: { xs: "100%", sm: 300 }, // ↓ full width on phones
-                  "& .MuiInputBase-input": { textAlign: "center" },
+                  width: "300px",
+                  "& .MuiInputBase-input": {
+                    textAlign: "center",
+                  },
                 }}
                 slotProps={{ inputLabel: { shrink: true } }}
                 label="Next Follow Up Date"
-                value={calculatedDate || ""}
+                value={calculatedDate || ""} // ✅ ensures empty string instead of undefined
                 disabled
               />
             </Box>
-
             <Box sx={{ textAlign: "center" }}>
               <Button
                 variant="contained"
                 size="small"
                 color="success"
                 onClick={() => setScreen("Screen008")}
-                sx={{ px: 5, width: { xs: "100%", sm: 300 } }} // ↓ full width on phones
-                disabled={!followUpDueDate}
+                sx={{ px: 5, width: "300px" }}
+                disabled={!followUpDueDate} // ✅ only disable when nothing is selected
               >
                 Next
               </Button>
