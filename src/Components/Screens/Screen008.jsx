@@ -153,14 +153,26 @@ const Screen008 = ({
             </Box>
 
             <Box
-              sx={{ display: "flex", justifyContent: "space-between", mt: 5 }}
+              sx={{
+                display: "flex",
+                justifyContent: { xs: "center", sm: "space-between" },
+                gap: { xs: 1.5, sm: 2 },
+                mt: 5,
+                flexWrap: { xs: "wrap", sm: "nowrap" }, // allow side-by-side or wrap on small screens
+              }}
             >
               <Button
                 variant="contained"
                 size="small"
                 color="error"
                 onClick={() => handle_Route_1103()}
-                sx={{ px: 5, width: "300px" }}
+                sx={{
+                  px: { xs: 2, sm: 5 }, // smaller horizontal padding on mobile
+                  py: { xs: 0.75, sm: 1 }, // slightly slimmer height on mobile
+                  width: { xs: "48%", sm: 300 }, // two compact buttons side-by-side on mobile
+                  minWidth: "unset", // let width control the size
+                  fontSize: { xs: "0.8rem", sm: "0.875rem" },
+                }}
               >
                 No thanks, Just Confirm Next Follow Up Date
               </Button>
@@ -170,7 +182,13 @@ const Screen008 = ({
                 size="small"
                 color="success"
                 onClick={() => setScreen("Screen009")}
-                sx={{ px: 5, width: "300px" }}
+                sx={{
+                  px: { xs: 2, sm: 5 },
+                  py: { xs: 0.75, sm: 1 },
+                  width: { xs: "48%", sm: 300 },
+                  minWidth: "unset",
+                  fontSize: { xs: "0.8rem", sm: "0.875rem" },
+                }}
                 // disabled={!followUpDueDate}
               >
                 Yes, Send a Follow Up Email
