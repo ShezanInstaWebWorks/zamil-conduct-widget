@@ -182,7 +182,6 @@ const Screen009 = ({
                   borderCollapse: "collapse",
                   "& th, & td": {
                     border: "1px solid",
-                    p: { xs: 0.5, sm: 1 }, // mobile: tighter cell padding
                   },
                 }}
               >

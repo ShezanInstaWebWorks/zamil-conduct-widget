@@ -40,6 +40,8 @@ function App() {
   const [emailBodyContent, setEmailBodyContent] = useState("");
   const [selectedTrail, setSelectedTrail] = useState("");
   const [customSubject, setCustomSubject] = useState("");
+  const [route1104Data, setRoute1104Data] = useState(null);
+
   const subject = customSubject || selectedTrail;
   useEffect(() => {
     ZOHO.embeddedApp.on("PageLoad", async function (data) {
@@ -235,6 +237,7 @@ function App() {
     }
   };
 
+  // keep your existing function name, just add the prefill lines
   const handle_Route_1104 = async () => {
     try {
       setNextLoading(true);
@@ -242,7 +245,7 @@ function App() {
       const currentUserData = await getZohoUser();
 
       const func_name_1104 = "route_1104";
-      let paramsMap = {
+      const paramsMap = {
         deal_id: recordData?.id,
         contact_details: {
           name: selectedTo?.name,
@@ -253,22 +256,28 @@ function App() {
         user_id: currentUserData?.id,
       };
 
-      console.log("func_name_1104_param", paramsMap);
-
       const resp = await ZOHO.CRM.FUNCTIONS.execute(func_name_1104, {
         arguments: JSON.stringify({ params: paramsMap }),
       });
 
-      console.log("func_1104_res", resp);
-
       if (resp?.status !== "success") {
         setErrorResp(resp);
         setScreen("ES001");
-      } else {
-        setScreen("Screen010");
+        return null;
       }
 
-      return resp; // ✅ return so caller can use it
+      // 🔽 normalize if your payload nests under `details` (adjust if needed)
+      const data = resp?.details ?? resp;
+
+      // 🔒 cache for Screen010 props (trails etc.)
+      setRoute1104Data(data);
+
+      // ✅ prefill so Screen010 mounts with values already set
+      if (data?.subject) setCustomSubject((prev) => prev || data.subject);
+      if (data?.body) setEmailBodyContent((prev) => prev || data.body);
+
+      setScreen("Screen010");
+      return data; // optional
     } catch (error) {
       console.error("Error in handle_Route_1104:", error);
       setErrorResp(error);
@@ -426,6 +435,7 @@ function App() {
           calculatedDate={calculatedDate}
           setCalculatedDate={setCalculatedDate}
           route_1106_data={route_1106_data}
+          route1104Data={route1104Data}
           handle_Route_1104={handle_Route_1104}
           handle_Route_1105={handle_Route_1105}
           setSelectedTo={setSelectedTo}

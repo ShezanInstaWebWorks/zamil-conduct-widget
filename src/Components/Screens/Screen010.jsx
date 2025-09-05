@@ -17,8 +17,6 @@ import {
 } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { CircularProgress } from "@mui/material";
-import Information1 from "../Information/Information1";
 import { useEffect, useState } from "react";
 import RichText from "../RichText/RichText";
 import InfoIcon from "@mui/icons-material/Info";
@@ -40,8 +38,9 @@ const Screen010 = ({
   customSubject,
   setCustomSubject,
   subject,
+  route1104Data,
 }) => {
-  const [route1104Data, setRoute1104Data] = useState(null);
+  const [editorReadyKey, setEditorReadyKey] = useState("rt-wait");
 
   console.log("subject", subject);
   const handleToChange = (contact) => {
@@ -70,18 +69,11 @@ const Screen010 = ({
         : [...prev, email];
     });
   };
+  // Show selected trail first; else user's custom; else API default; else empty string
+  const computedSubject = selectedTrail || customSubject || "";
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const resp = await handle_Route_1104(); // call async function
-      setRoute1104Data(resp); // save result in state
-    };
-    fetchData();
-  }, []); // run once when component mounts
-
-  // safely extract trails
+  // 👇 trails come from the pre-fetched payload
   const trails = route1104Data?.common_email_trails ?? [];
-
   const uniqueTrails = Object.values(
     trails.reduce((acc, trail) => {
       if (
@@ -93,6 +85,7 @@ const Screen010 = ({
       return acc;
     }, {})
   );
+
   console.log("uniqueTrails", uniqueTrails);
   return (
     <Box
@@ -250,12 +243,14 @@ const Screen010 = ({
               <TextField
                 size="small"
                 placeholder="Enter custom subject"
-                value={subject} // ✅ show either selected trail or manual text
+                value={computedSubject}
                 onChange={(e) => {
-                  setCustomSubject(e.target.value); // ✅ typing overrides
-                  setSelectedTrail(""); // clear dropdown if typing
+                  setCustomSubject(e.target.value); // allow spaces!
+                  setSelectedTrail(""); // typing clears the selected trail
                 }}
                 sx={{ maxWidth: 450 }}
+                disabled={Boolean(selectedTrail)} // lock only when a trail is selected
+                helperText=""
               />
             </Box>
 
@@ -263,8 +258,9 @@ const Screen010 = ({
             <Box>
               <Typography sx={{ mb: 1 }}>Email Body :</Typography>
               <RichText
-                setEmailBodyContent={setEmailBodyContent}
+                key={editorReadyKey} // 👈 forces one-time re-mount
                 emailBodyContent={emailBodyContent}
+                setEmailBodyContent={setEmailBodyContent}
               />
             </Box>
           </Paper>
@@ -276,7 +272,7 @@ const Screen010 = ({
             sx={{
               p: 4,
               mb: 1,
-              minHeight: "520px",
+              minHeight: "490px",
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-between", // pushes button to bottom
@@ -381,7 +377,7 @@ const Screen010 = ({
               size="small"
               color="success"
               onClick={() => handle_Route_1105()}
-              sx={{ px: 5, width: "300px", mt: "auto" }}
+              sx={{ width: "300px", mt: "auto" }}
               disabled={!selectedTo}
             >
               Send Email & Create Next Follow Up

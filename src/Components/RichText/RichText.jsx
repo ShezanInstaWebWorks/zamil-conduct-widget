@@ -34,12 +34,41 @@ const RichText = ({ emailBodyContent, setEmailBodyContent }) => {
   return (
     <Box>
       <MenuBar editor={editor} />
+
       <Box
         sx={{
           my: 1,
+          border: "1px solid",
+          borderColor: "divider",
+          borderRadius: 1.5,
+          minHeight: 0, // ✅ important in flex layouts
+
+          // Scroll on EditorContent itself
+          "& .editor-scroll": {
+            height: 254, // fixed viewport height
+            overflowY: "auto", // scroll inside EditorContent
+            overscrollBehavior: "contain",
+            scrollbarWidth: "thin",
+            "&::-webkit-scrollbar": { width: 8 },
+            "&::-webkit-scrollbar-thumb": {
+              borderRadius: 8,
+              backgroundColor: "action.disabled",
+            },
+          },
+
+          // ProseMirror content area
+          "& .editor-scroll .ProseMirror": {
+            padding: 2,
+            outline: "none",
+            cursor: "text",
+            whiteSpace: "pre-wrap",
+            wordBreak: "break-word",
+            minHeight: 220, // keep blank area clickable
+            boxSizing: "border-box",
+          },
         }}
       >
-        <EditorContent className="editor-container" editor={editor} />
+        <EditorContent editor={editor} className="editor-scroll" />
       </Box>
     </Box>
   );
